@@ -1,0 +1,121 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f0f4f8;
+  width: 100%;
+}
+
+.main .formContainer {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.main .formContainer .heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.main .formContainer .gridContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.main .formContainer .gridContainer .textField {
+  width: 150px;
+}
+
+.main .formContainer .gridContainer .generateButton {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #f30014b0;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.main .formContainer .gridContainer .generateButton:hover {
+  color:#f30014b0;
+  background-color: white;
+}
+
+.main .formContainer .gridContainer .selectField {
+  min-width: 150px;
+}
+
+.main .formContainer .gridContainer .operationButton {
+  margin: 20px 0;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #212121;
+  color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.main .formContainer .gridContainer .operationButton:hover {
+  color: #212121;
+  background-color: #fff;
+  border-color: #212121;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.main .tablesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.main .tablesContainer .tableContainer {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
+}
+
+.main .tablesContainer .tableContainer::-webkit-scrollbar {
+  display: none; 
+}
+
+.tableCell {
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+
+.loadingIndicator {
+  margin-top: 2rem;
+}
+
+.tableTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.resultContainer {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main .formContainer .heading  {
+    font-size: 2rem;
+  }
+
+  .generateButton, .operationButton {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+}

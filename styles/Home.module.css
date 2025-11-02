@@ -1,0 +1,109 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 2rem;
+    background-color: #f0f4f8;
+    width: 100%;
+  }
+  
+  .main .hero {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+  
+  .main .hero .heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .main .hero .subheading {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+  
+  .main .hero .trybtn {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #212121;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+  
+  .main .hero .trybtn:hover {
+    color: #212121;
+    background-color: #fff;
+    border-color: #212121;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .main .hero .trybtn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main .features {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+  
+  .main .features .featuresHeading {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    font-family: 'Brush Script MT', cursive;
+    font-weight: 500;
+    font-size: 3rem;
+  }
+  
+  .main .features .featureBox {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .main .features .featureBox h6 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  .main .features .featureBox p {
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .main .hero .heading {
+      font-size: 2rem;
+    }
+  
+    .main .hero .subheading {
+      font-size: 1rem;
+    }
+  
+    .main .hero .trybtn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+  }
