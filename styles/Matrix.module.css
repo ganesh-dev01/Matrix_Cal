@@ -1,121 +1,517 @@
+/* ===========================
+   MATRIX CALCULATOR PAGE
+   =========================== */
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
-  background-color: #f0f4f8;
   width: 100%;
+  padding-top: 64px; /* navbar */
+  padding-bottom: 3rem;
+  overflow-x: hidden;
 }
 
-.main .formContainer {
+/* Ambient background orbs */
+.main::before {
+  content: '';
+  position: fixed;
+  top: -10%;
+  right: -10%;
+  width: clamp(250px, 40vw, 500px);
+  height: clamp(250px, 40vw, 500px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.15), transparent 70%);
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 0;
+  animation: floatY 10s ease-in-out infinite;
+}
+
+/* ==============================
+   FORM CONTAINER
+   ============================== */
+.formContainer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 5vw, 2.5rem);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.pageHeader {
   margin-bottom: 2rem;
   text-align: center;
 }
 
-.main .formContainer .heading {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #333;
+.heading {
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem) !important;
+  font-weight: 800 !important;
+  color: #f1f5ff !important;
+  letter-spacing: -0.04em !important;
+  margin-bottom: 0.4rem !important;
+  line-height: 1.1 !important;
 }
 
-.main .formContainer .gridContainer {
+.headingAccent {
+  background: linear-gradient(135deg, #6c63ff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pageSubtitle {
+  font-size: 0.9rem;
+  color: rgba(241,245,255,0.45);
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/* ---- Config Card ---- */
+.configCard {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s ease;
+}
+
+.configCard:hover {
+  border-color: rgba(108,99,255,0.20);
+}
+
+.configCardTitle {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(241,245,255,0.35);
+  margin-bottom: 1.25rem;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.main .formContainer .gridContainer .textField {
-  width: 150px;
-}
-
-.main .formContainer .gridContainer .generateButton {
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #f30014b0;
-  color: #fff;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-}
-
-.main .formContainer .gridContainer .generateButton:hover {
-  color:#f30014b0;
-  background-color: white;
-}
-
-.main .formContainer .gridContainer .selectField {
-  min-width: 150px;
-}
-
-.main .formContainer .gridContainer .operationButton {
-  margin: 20px 0;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #212121;
-  color: #fff;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-}
-
-.main .formContainer .gridContainer .operationButton:hover {
-  color: #212121;
-  background-color: #fff;
-  border-color: #212121;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.main .tablesContainer {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 8px;
 }
 
-.main .tablesContainer .tableContainer {
+.configCardTitle::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 2px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #6c63ff, #a78bfa);
+}
+
+.gridContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* ---- Input fields ---- */
+.textField {
+  flex: 1;
+  min-width: 100px;
+  max-width: 180px;
+}
+
+.textField .MuiOutlinedInput-root {
+  background: rgba(255,255,255,0.04) !important;
+}
+
+/* ---- Buttons ---- */
+.generateButton {
+  padding: 13px 28px !important;
+  border-radius: 10px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #6c63ff, #a78bfa) !important;
+  border: none !important;
+  text-transform: none !important;
+  box-shadow: 0 0 20px rgba(108,99,255,0.35) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  white-space: nowrap;
+}
+
+.generateButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px rgba(108,99,255,0.55) !important;
+}
+
+.generateButton:active {
+  transform: translateY(0) !important;
+}
+
+.selectField {
+  min-width: 150px;
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: 10px !important;
+}
+
+.operationButton {
+  padding: 13px 28px !important;
+  border-radius: 10px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  text-transform: none !important;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease !important;
+  white-space: nowrap;
+}
+
+.operationButton:hover {
+  background: rgba(108,99,255,0.14) !important;
+  border-color: rgba(108,99,255,0.35) !important;
+  transform: translateY(-1px);
+}
+
+.operationButton:active {
+  transform: translateY(0) !important;
+}
+
+.operationButton:disabled {
+  opacity: 0.38 !important;
+  cursor: not-allowed !important;
+}
+
+/* ==============================
+   TABLES CONTAINER
+   ============================== */
+.tablesContainer {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
-  scrollbar-width: none; 
-  -ms-overflow-style: none;  
+  max-width: 1200px;
+  padding: 0 clamp(1rem, 5vw, 2.5rem);
+  animation: fadeInUp 0.5s 0.1s ease both;
 }
 
-.main .tablesContainer .tableContainer::-webkit-scrollbar {
-  display: none; 
+.matrixGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
-.tableCell {
-  text-align: center;
-  padding: 1rem;
-  border: 1px solid #ddd;
+/* ---- Table card ---- */
+.tableContainer {
+  background: rgba(255,255,255,0.03) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 18px !important;
+  overflow: hidden;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.loadingIndicator {
-  margin-top: 2rem;
+.tableContainer:hover {
+  border-color: rgba(108,99,255,0.22) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 20px rgba(108,99,255,0.07) !important;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Table sits flush inside the card — padding handled by MatrixTable internally */
+.tableInner {
+  padding: 0.75rem 1rem 0.5rem;
 }
 
 .tableTitle {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: rgba(241,245,255,0.75) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.tableDimBadge {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(241,245,255,0.35);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+
+
+/* ---- Result matrix card ---- */
+.resultCard {
+  background: rgba(108,99,255,0.05);
+  border: 1px solid rgba(108,99,255,0.18);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.resultCard:hover {
+  border-color: rgba(108,99,255,0.30);
+  box-shadow: 0 8px 32px rgba(108,99,255,0.10);
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid rgba(108,99,255,0.10);
+}
+
+.resultTitle {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: #a78bfa !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* ---- Copy Button ---- */
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(241,245,255,0.45);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.copyBtn:hover {
+  background: rgba(108,99,255,0.10);
+  color: #a78bfa;
+  border-color: rgba(108,99,255,0.25);
+}
+
+.copyBtn.copied {
+  color: #34d399;
+  border-color: rgba(52,211,153,0.25);
+  background: rgba(52,211,153,0.07);
+}
+
+/* ==============================
+   LOADING
+   ============================== */
+.loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 0;
+}
+
+.loadingText {
+  font-size: 0.85rem;
+  color: rgba(241,245,255,0.4);
+  letter-spacing: 0.5px;
+}
+
+.loadingIndicator {
+  color: #6c63ff !important;
+}
+
+/* ==============================
+   ERROR TOAST
+   ============================== */
+.errorToast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255,107,138,0.08);
+  border: 1px solid rgba(255,107,138,0.22);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  animation: fadeInUp 0.3s ease;
+}
+
+.errorIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: #ff6b8a;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* ==============================
+   EMPTY STATE
+   ============================== */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: rgba(241,245,255,0.25);
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  opacity: 0.4;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(241,245,255,0.30);
+}
+
+.emptyDesc {
+  font-size: 0.82rem;
+  color: rgba(241,245,255,0.20);
+  max-width: 260px;
+  line-height: 1.6;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 640px) {
+  .gridContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .textField {
+    max-width: 100%;
+  }
+
+  .generateButton,
+  .operationButton {
+    width: 100% !important;
+  }
+
+  .selectField {
+    width: 100% !important;
+  }
+}
+
+/* ==============================
+   SCALAR RESULT CARD
+   (Determinant / Trace)
+   ============================== */
+.scalarResultCard {
+  background: rgba(108,99,255,0.06);
+  border: 1px solid rgba(108,99,255,0.20);
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  animation: fadeInScale 0.35s ease;
+  margin-top: 0.25rem;
+}
+
+.scalarResultLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(241,245,255,0.35);
+  margin-bottom: 0.75rem;
+}
+
+.scalarResultValue {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background: linear-gradient(135deg, #6c63ff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.scalarResultSub {
+  font-size: 0.8rem;
+  color: rgba(241,245,255,0.30);
+  font-style: italic;
+}
+
+/* ==============================
+   TRACE BADGE (on result card)
+   ============================== */
+.traceBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(167,139,250,0.75);
+  background: rgba(108,99,255,0.08);
+  border: 1px solid rgba(108,99,255,0.18);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  letter-spacing: 0.3px;
+}
+
+/* ==============================
+   EXTRA INPUT ROW
+   (Scalar / Power)
+   ============================== */
+.extraInputRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.extraInputLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(241,245,255,0.45);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ==============================
+   SINGLE MATRIX HINT
+   ============================== */
+.singleMatrixHint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+  background: rgba(108,99,255,0.06);
+  border: 1px solid rgba(108,99,255,0.15);
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: rgba(167,139,250,0.7);
   margin-bottom: 1rem;
-  color: #333;
 }
 
-.resultContainer {
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  .main .formContainer .heading  {
-    font-size: 2rem;
-  }
-
-  .generateButton, .operationButton {
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-  }
+.singleMatrixHintIcon {
+  font-size: 1rem;
+  flex-shrink: 0;
 }

@@ -1,5 +1,163 @@
-* {
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --color-bg:            #080818;
+  --color-bg-2:          #0d0d2b;
+  --color-surface:       rgba(255, 255, 255, 0.04);
+  --color-surface-hover: rgba(255, 255, 255, 0.08);
+  --color-border:        rgba(255, 255, 255, 0.10);
+  --color-border-glow:   rgba(108, 99, 255, 0.50);
+
+  --color-accent-1:      #6c63ff;
+  --color-accent-2:      #a78bfa;
+  --color-accent-3:      #38bdf8;
+  --gradient-accent:     linear-gradient(135deg, #6c63ff, #a78bfa);
+  --gradient-accent-h:   linear-gradient(135deg, #a78bfa, #6c63ff);
+  --gradient-bg:         linear-gradient(135deg, #080818 0%, #0d0d2b 50%, #0a0a22 100%);
+
+  --color-text:          #f1f5ff;
+  --color-text-muted:    rgba(241, 245, 255, 0.55);
+  --color-error:         #ff6b8a;
+  --color-success:       #34d399;
+
+  --radius-sm:           8px;
+  --radius-md:           14px;
+  --radius-lg:           20px;
+  --radius-xl:           28px;
+
+  --blur-glass:          blur(16px);
+  --blur-glass-sm:       blur(8px);
+
+  --shadow-card:         0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-glow:         0 0 24px rgba(108, 99, 255, 0.35);
+  --shadow-glow-sm:      0 0 12px rgba(108, 99, 255, 0.25);
+
+  --transition-fast:     0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med:      0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:     0.45s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --font-family:         'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* ===== BASE ===== */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--gradient-bg);
+  background-attachment: fixed;
+  color: var(--color-text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-1);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-2); }
+
+/* ===== UTILITY CLASSES ===== */
+.glass {
+  background: var(--color-surface);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== KEYFRAMES ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(108,99,255,0.3); }
+  50%       { box-shadow: 0 0 28px rgba(108,99,255,0.65); }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes spin-border {
+  to { --angle: 360deg; }
+}
+
+/* ===== MUI OVERRIDES (global) ===== */
+.MuiOutlinedInput-root {
+  color: var(--color-text) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--color-border) !important;
+}
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--color-accent-1) !important;
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--color-accent-1) !important;
+  box-shadow: 0 0 0 2px rgba(108,99,255,0.25) !important;
+}
+.MuiInputLabel-root {
+  color: var(--color-text-muted) !important;
+}
+.MuiInputLabel-root.Mui-focused {
+  color: var(--color-accent-2) !important;
+}
+.MuiSelect-select {
+  color: var(--color-text) !important;
+}
+.MuiSvgIcon-root {
+  color: var(--color-text-muted) !important;
+}
+.MuiPaper-root {
+  background: rgba(15,15,42,0.95) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border) !important;
+}
+.MuiMenuItem-root:hover {
+  background: var(--color-surface-hover) !important;
+}
+.MuiCircularProgress-root {
+  color: var(--color-accent-1) !important;
 }
