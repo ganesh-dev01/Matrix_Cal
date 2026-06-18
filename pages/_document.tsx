@@ -12,9 +12,12 @@ export default function Document() {
           rel="stylesheet"
         />
 
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.png" type="image/png" />
+
         {/* SEO */}
         <meta name="description" content="MatrixCalc — A powerful, beautiful matrix calculator. Generate matrices and perform addition, subtraction, and multiplication with ease." />
-        <meta name="theme-color" content="#080818" />
+        <meta name="theme-color" content="#000000" />
         <meta property="og:title" content="MatrixCalc — Matrix Calculator" />
         <meta property="og:description" content="Generate and compute matrices with a beautiful, responsive UI." />
         <meta property="og:type" content="website" />

@@ -1,5 +1,5 @@
 /* ===========================
-   MatrixTable Component Styles
+   MatrixTable Component Styles (Monochrome)
    =========================== */
 
 .wrapper {
@@ -11,21 +11,26 @@
 .scrollContainer {
   overflow: auto;
   max-height: 300px;
-  border-radius: 10px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(108, 99, 255, 0.45) transparent;
+  border-radius: 8px;
+  scrollbar-width: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.35) rgba(255, 255, 255, 0.03);
 }
 
 .scrollContainer::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
 }
 .scrollContainer::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 99px;
 }
 .scrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(108, 99, 255, 0.45);
+  background: rgba(255, 255, 255, 0.35);
   border-radius: 99px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
 }
 .scrollContainer::-webkit-scrollbar-corner {
   background: transparent;
@@ -40,25 +45,26 @@
 
 .cell {
   min-width: 60px;
-  padding: 9px 16px;
+  padding: 10px 16px;
   text-align: center;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  font-size: 0.83rem;
-  font-weight: 500;
+  font-family: monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(241, 245, 255, 0.80);
-  transition: background 0.13s ease, color 0.13s ease;
+  background: rgba(255, 255, 255, 0.01);
+  color: rgba(255, 255, 255, 0.80);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
 }
 
 .cell.zero {
-  color: rgba(241, 245, 255, 0.20);
+  color: rgba(255, 255, 255, 0.18);
 }
 
 .tableRow:hover .cell {
-  background: rgba(108, 99, 255, 0.07);
-  color: rgba(241, 245, 255, 0.95);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.98);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Highlight top-left corner cell slightly */
@@ -89,10 +95,10 @@
 .shadowRight {
   top: 0;
   right: 0;
-  bottom: 20px; /* leave room for hint */
+  bottom: 20px;
   width: 48px;
-  background: linear-gradient(to left, rgba(10, 10, 30, 0.75), transparent);
-  border-radius: 0 10px 10px 0;
+  background: linear-gradient(to left, #000000, transparent);
+  border-radius: 0 8px 8px 0;
 }
 
 .shadowLeft {
@@ -100,8 +106,8 @@
   left: 0;
   bottom: 20px;
   width: 48px;
-  background: linear-gradient(to right, rgba(10, 10, 30, 0.75), transparent);
-  border-radius: 10px 0 0 10px;
+  background: linear-gradient(to right, #000000, transparent);
+  border-radius: 8px 0 0 8px;
 }
 
 .shadowBottom {
@@ -109,7 +115,7 @@
   right: 0;
   bottom: 20px;
   height: 48px;
-  background: linear-gradient(to top, rgba(10, 10, 30, 0.70), transparent);
+  background: linear-gradient(to top, #000000, transparent);
 }
 
 .shadowTop {
@@ -117,7 +123,7 @@
   left: 0;
   right: 0;
   height: 32px;
-  background: linear-gradient(to bottom, rgba(10, 10, 30, 0.55), transparent);
+  background: linear-gradient(to bottom, #000000, transparent);
 }
 
 /* ---- Scroll Hint Bar ---- */
@@ -125,27 +131,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  padding-top: 8px;
-  min-height: 20px;
+  gap: 12px;
+  padding-top: 12px;
+  min-height: 24px;
 }
 
 .scrollHintItem {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 0.68rem;
-  font-weight: 500;
-  color: rgba(241, 245, 255, 0.25);
-  letter-spacing: 0.4px;
-  animation: pulse-glow-hint 2.5s ease-in-out infinite;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  padding: 4px 12px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: pulse-glow-hint 2s ease-in-out infinite;
 }
 
 .scrollHintItem svg {
-  opacity: 0.5;
+  opacity: 0.75;
 }
 
 @keyframes pulse-glow-hint {
-  0%, 100% { opacity: 0.6; }
-  50%       { opacity: 1; }
+  0%, 100% {
+    opacity: 0.6;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.05);
+  }
 }

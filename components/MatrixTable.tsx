@@ -49,10 +49,6 @@ const MatrixTable = ({ rows, columns, matrix }: MatrixTableProps) => {
     };
   }, [checkScroll, matrix]);
 
-  const canScrollH = scroll.left || scroll.right;
-  const canScrollV = scroll.top || scroll.bottom;
-  const showHint   = canScrollH || canScrollV;
-
   return (
     <div className={styles.wrapper}>
       {/* ── Shadow overlays (appear only when scrollable) ── */}
@@ -84,37 +80,6 @@ const MatrixTable = ({ rows, columns, matrix }: MatrixTableProps) => {
           </tbody>
         </table>
       </div>
-
-      {/* ── Scroll hint (shown only when table overflows) ── */}
-      {showHint && (
-        <div className={styles.scrollHint} aria-label="Scroll hint">
-          {canScrollH && (
-            <span className={styles.scrollHintItem}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-              Scroll horizontally
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </span>
-          )}
-          {canScrollH && canScrollV && (
-            <span className={styles.scrollHintItem} style={{ opacity: 0.18 }}>·</span>
-          )}
-          {canScrollV && (
-            <span className={styles.scrollHintItem}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 19V5M5 12l7-7 7 7" />
-              </svg>
-              Scroll vertically
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 5v14M19 12l-7 7-7-7" />
-              </svg>
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 };

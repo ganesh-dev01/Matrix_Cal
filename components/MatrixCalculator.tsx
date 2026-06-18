@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Head from 'next/head';
 import styles from '@/styles/Matrix.module.css';
 import {
   TextField,
@@ -44,7 +43,7 @@ const OP_LABELS: Record<string, string> = {
 };
 
 /* ── Component ───────────────────────────────────────────────── */
-const Matrix: React.FC = () => {
+const MatrixCalculator: React.FC = () => {
   const [rows, setRows]         = useState<number | string>(3);
   const [columns, setColumns]   = useState<number | string>(3);
   const [matrix1, setMatrix1]   = useState<number[][]>([]);
@@ -131,27 +130,24 @@ const Matrix: React.FC = () => {
     : '';
 
   return (
-    <>
-      <Head>
-        <title>Calculator — MatrixCalc</title>
-      </Head>
+    <div className={styles.calculatorContainer}>
+      <div className={styles.dashboardCard}>
+        {/* Header Title inside Dashboard */}
+        <div className={styles.dashboardHeader}>
+          <h1 className={styles.heading}>
+            Matrix <span className={styles.headingAccent}>Calculator</span>
+          </h1>
+          <p className={styles.pageSubtitle}>
+            Perform complex matrix algebra off-thread via Web Workers.
+          </p>
+        </div>
 
-      <main className={styles.main}>
-        {/* ── FORM ── */}
-        <div className={styles.formContainer}>
-          <div className={styles.pageHeader}>
-            <h1 className={styles.heading}>
-              Matrix <span className={styles.headingAccent}>Calculator</span>
-            </h1>
-            <p className={styles.pageSubtitle}>
-              Generate matrices and perform operations instantly
-            </p>
-          </div>
-
-          {/* Dimensions */}
-          <div className={styles.configCard}>
-            <div className={styles.configCardTitle}>Dimensions</div>
-            <div className={styles.gridContainer}>
+        {/* Unified Controls Panel */}
+        <div className={styles.controlsPanel}>
+          {/* Dimension controls */}
+          <div className={styles.controlSection}>
+            <div className={styles.sectionLabel}>Dimensions</div>
+            <div className={styles.controlRow}>
               <TextField
                 id="input-rows"
                 label="Rows"
@@ -183,10 +179,10 @@ const Matrix: React.FC = () => {
             </div>
           </div>
 
-          {/* Operation */}
-          <div className={styles.configCard}>
-            <div className={styles.configCardTitle}>Operation</div>
-            <div className={styles.gridContainer}>
+          {/* Operation controls */}
+          <div className={styles.controlSection}>
+            <div className={styles.sectionLabel}>Operation</div>
+            <div className={styles.controlRow}>
               <Select
                 id="select-operation"
                 value={operation}
@@ -210,6 +206,33 @@ const Matrix: React.FC = () => {
                 <MenuItem value="power">Matrix Power &nbsp;— Aⁿ</MenuItem>
               </Select>
 
+              {isScalarOp && (
+                <TextField
+                  id="input-scalar"
+                  type="number"
+                  label="Scalar k"
+                  value={scalar}
+                  onChange={(e) => setScalar(e.target.value === '' ? '' : e.target.value)}
+                  size="small"
+                  className={styles.extraField}
+                  placeholder="e.g. 2.5"
+                />
+              )}
+
+              {isPowerOp && (
+                <TextField
+                  id="input-power"
+                  type="number"
+                  label="Power n"
+                  value={power}
+                  onChange={(e) => setPower(e.target.value === '' ? '' : e.target.value)}
+                  size="small"
+                  className={styles.extraField}
+                  placeholder="e.g. 3"
+                  inputProps={{ min: 0, max: 20 }}
+                />
+              )}
+
               <Button
                 id="btn-compute"
                 variant="outlined"
@@ -220,77 +243,102 @@ const Matrix: React.FC = () => {
                 Compute
               </Button>
             </div>
-
-            {/* Extra input: Scalar value */}
-            {isScalarOp && (
-              <div className={styles.extraInputRow}>
-                <span className={styles.extraInputLabel}>Scalar k =</span>
-                <TextField
-                  id="input-scalar"
-                  type="number"
-                  value={scalar}
-                  onChange={(e) => setScalar(e.target.value === '' ? '' : e.target.value)}
-                  size="small"
-                  className={styles.textField}
-                  placeholder="e.g. 2.5"
-                />
-              </div>
-            )}
-
-            {/* Extra input: Power n */}
-            {isPowerOp && (
-              <div className={styles.extraInputRow}>
-                <span className={styles.extraInputLabel}>Power n =</span>
-                <TextField
-                  id="input-power"
-                  type="number"
-                  value={power}
-                  onChange={(e) => setPower(e.target.value === '' ? '' : e.target.value)}
-                  size="small"
-                  className={styles.textField}
-                  placeholder="e.g. 3"
-                  inputProps={{ min: 0, max: 20 }}
-                />
-              </div>
-            )}
           </div>
         </div>
 
-        {/* ── MATRICES ── */}
-        <div className={styles.tablesContainer}>
+        {/* Single-matrix hint */}
+        {isSingleOp && hasMatrices && (
+          <div className={styles.singleMatrixHint}>
+            <span className={styles.singleMatrixHintIcon}>ℹ</span>
+            <span><strong>{OP_LABELS[operation]}</strong> uses only Matrix A — Matrix B is not required.</span>
+          </div>
+        )}
 
-          {/* Single-matrix hint */}
-          {isSingleOp && hasMatrices && (
-            <div className={styles.singleMatrixHint}>
-              <span className={styles.singleMatrixHintIcon}>ℹ</span>
-              <span><strong>{OP_LABELS[operation]}</strong> uses only Matrix A — Matrix B is not required.</span>
-            </div>
-          )}
-
+        {/* Workspace grid (Matrices & Results side-by-side or stacked nicely) */}
+        <div className={styles.workspace}>
           {hasMatrices ? (
-            <div className={styles.matrixGrid}>
-              {/* Matrix A */}
-              <Paper elevation={0} className={styles.tableContainer}>
-                <div className={styles.tableHeader}>
-                  <Typography className={styles.tableTitle}>Matrix A</Typography>
-                  <span className={styles.tableDimBadge}>{matrix1.length} × {matrix1[0]?.length}</span>
-                </div>
-                <div className={styles.tableInner}>
-                  <MatrixTable rows={matrix1.length} columns={matrix1[0].length} matrix={matrix1} onCellChange={() => {}} />
-                </div>
-              </Paper>
-
-              {/* Matrix B — hidden for single-matrix ops */}
-              {!isSingleOp && matrix2.length > 0 && (
-                <Paper elevation={0} className={styles.tableContainer}>
+            <div className={styles.matrixContainer}>
+              <div className={styles.matrixRow}>
+                {/* Matrix A */}
+                <Paper elevation={0} className={styles.tableCard}>
                   <div className={styles.tableHeader}>
-                    <Typography className={styles.tableTitle}>Matrix B</Typography>
-                    <span className={styles.tableDimBadge}>{matrix2.length} × {matrix2[0]?.length}</span>
+                    <Typography className={styles.tableTitle}>Matrix A</Typography>
+                    <span className={styles.tableDimBadge}>{matrix1.length} × {matrix1[0]?.length}</span>
                   </div>
                   <div className={styles.tableInner}>
-                    <MatrixTable rows={matrix2.length} columns={matrix2[0].length} matrix={matrix2} onCellChange={() => {}} />
+                    <MatrixTable rows={matrix1.length} columns={matrix1[0].length} matrix={matrix1} onCellChange={() => {}} />
                   </div>
                 </Paper>
+
+                {/* Matrix B — hidden for single-matrix ops */}
+                {!isSingleOp && matrix2.length > 0 && (
+                  <Paper elevation={0} className={styles.tableCard}>
+                    <div className={styles.tableHeader}>
+                      <Typography className={styles.tableTitle}>Matrix B</Typography>
+                      <span className={styles.tableDimBadge}>{matrix2.length} × {matrix2[0]?.length}</span>
+                    </div>
+                    <div className={styles.tableInner}>
+                      <MatrixTable rows={matrix2.length} columns={matrix2[0].length} matrix={matrix2} onCellChange={() => {}} />
+                    </div>
+                  </Paper>
+                )}
+              </div>
+
+              {/* ── LOADING ── */}
+              {loading && (
+                <div className={styles.loadingWrapper}>
+                  <CircularProgress size={36} className={styles.loadingIndicator} />
+                  <span className={styles.loadingText}>Computing…</span>
+                </div>
+              )}
+
+              {/* ── RESULT ── */}
+              {!loading && result && (
+                <Box className={styles.resultWrapper}>
+                  {isScalarResult && scalarValue !== null && scalarValue !== undefined ? (
+                    <div className={styles.scalarResultCard}>
+                      <div className={styles.scalarResultLabel}>{scalarLabel}</div>
+                      <div className={styles.scalarResultValue}>{scalarValue}</div>
+                      <div className={styles.scalarResultSub}>{scalarFormula}</div>
+                      {extra?.isDeterminant && extra.trace !== undefined && (
+                        <div style={{ marginTop: '1rem' }}>
+                          <span className={styles.traceBadge}>tr(A) = {extra.trace}</span>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    /* Matrix result */
+                    <div className={styles.resultCard}>
+                      <div className={styles.resultHeader}>
+                        <Typography className={styles.resultTitle}>Result Matrix</Typography>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span className={styles.tableDimBadge}>{result.length} × {result[0]?.length}</span>
+                          {extra?.trace !== undefined && (
+                            <span className={styles.traceBadge}>tr = {extra.trace}</span>
+                          )}
+                          <button
+                            id="btn-copy-result"
+                            className={`${styles.copyBtn} ${copied ? styles.copied : ''}`}
+                            onClick={handleCopy}
+                          >
+                            {copied ? '✓ Copied' : '⎘ Copy'}
+                          </button>
+                        </div>
+                      </div>
+                      <div className={styles.tableInner}>
+                        <MatrixTable rows={result.length} columns={result[0].length} matrix={result} onCellChange={() => {}} />
+                      </div>
+                    </div>
+                  )}
+                </Box>
+              )}
+
+              {/* ── ERROR ── */}
+              {error && (
+                <div className={styles.errorToast}>
+                  <span className={styles.errorIcon}>⚠</span>
+                  <span className={styles.errorText}>{error}</span>
+                </div>
               )}
             </div>
           ) : (
@@ -300,72 +348,14 @@ const Matrix: React.FC = () => {
               <div className={styles.emptyDesc}>
                 Set the dimensions above and click{' '}
                 <strong style={{ color: 'rgba(167,139,250,0.8)' }}>Generate</strong>{' '}
-                to create your matrices.
+                to load the work area.
               </div>
             </div>
           )}
-
-          {/* ── LOADING ── */}
-          {loading && (
-            <div className={styles.loadingWrapper}>
-              <CircularProgress size={36} className={styles.loadingIndicator} />
-              <span className={styles.loadingText}>Computing…</span>
-            </div>
-          )}
-
-          {/* ── RESULT ── */}
-          {!loading && result && (
-            <Box>
-              {/* Scalar result (det / trace) */}
-              {isScalarResult && scalarValue !== null && scalarValue !== undefined ? (
-                <div className={styles.scalarResultCard}>
-                  <div className={styles.scalarResultLabel}>{scalarLabel}</div>
-                  <div className={styles.scalarResultValue}>{scalarValue}</div>
-                  <div className={styles.scalarResultSub}>{scalarFormula}</div>
-                  {extra?.isDeterminant && extra.trace !== undefined && (
-                    <div style={{ marginTop: '1rem' }}>
-                      <span className={styles.traceBadge}>tr(A) = {extra.trace}</span>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                /* Matrix result */
-                <div className={styles.resultCard}>
-                  <div className={styles.resultHeader}>
-                    <Typography className={styles.resultTitle}>Result Matrix</Typography>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span className={styles.tableDimBadge}>{result.length} × {result[0]?.length}</span>
-                      {extra?.trace !== undefined && (
-                        <span className={styles.traceBadge}>tr = {extra.trace}</span>
-                      )}
-                      <button
-                        id="btn-copy-result"
-                        className={`${styles.copyBtn} ${copied ? styles.copied : ''}`}
-                        onClick={handleCopy}
-                      >
-                        {copied ? '✓ Copied' : '⎘ Copy'}
-                      </button>
-                    </div>
-                  </div>
-                  <div className={styles.tableInner}>
-                    <MatrixTable rows={result.length} columns={result[0].length} matrix={result} onCellChange={() => {}} />
-                  </div>
-                </div>
-              )}
-            </Box>
-          )}
-
-          {/* ── ERROR ── */}
-          {error && (
-            <div className={styles.errorToast}>
-              <span className={styles.errorIcon}>⚠</span>
-              <span className={styles.errorText}>{error}</span>
-            </div>
-          )}
         </div>
-      </main>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default Matrix;
+export default MatrixCalculator;

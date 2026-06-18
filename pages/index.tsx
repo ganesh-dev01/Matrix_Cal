@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from '@/styles/Home.module.css';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import MatrixCalculator from '@/components/MatrixCalculator';
 
 const FEATURES = [
   {
@@ -37,84 +37,35 @@ const FEATURES = [
 ];
 
 
-const STATS = [
-  { number: '8', label: 'Operations' },
-  { number: '∞', label: 'Matrix Sizes' },
-  { number: '0ms', label: 'UI Block' },
-];
-
 const App: React.FC = () => {
-  const router = useRouter();
-
   return (
     <>
       <Head>
-        <title>MatrixCalc — Matrix Calculator</title>
+        <title>MatrixCalc — Premium Matrix Calculator</title>
       </Head>
 
       <main className={styles.main}>
-        {/* ===== HERO ===== */}
-        <section className={styles.hero}>
-          {/* Floating math decorations */}
-          {['∑', '∏', '∂', '∇', '∫'].map((sym, i) => (
+        {/* Floating math symbols in background */}
+        <div className={styles.mathBackground}>
+          {['∑', '∏', '∂', '∇', '∫', 'λ', '√', 'Aᵀ', 'det(A)', 'f(x)', 'lim', 'log'].map((sym, i) => (
             <span key={i} className={styles.mathDecor} aria-hidden="true">{sym}</span>
           ))}
-
-          <div className={styles.badge}>
-            <span className={styles.badgeDot} />
-            Powered by Web Workers
-          </div>
-
-          <h1 className={styles.heading}>
-            Matrix Operations
-            <span className={styles.headingGradient}>Made Beautiful</span>
-          </h1>
-
-          <p className={styles.subheading}>
-            Generate matrices, perform addition, subtraction, and multiplication —
-            all with a stunning interface designed for clarity and speed.
-          </p>
-
-          <div className={styles.ctaGroup}>
-            <button
-              className={styles.trybtn}
-              onClick={() => router.push('/matrix')}
-              id="hero-try-btn"
-            >
-              <span className={styles.trybtnInner}>
-                Try the Calculator
-                <span className={styles.tryArrow}>→</span>
-              </span>
-            </button>
-            <button
-              className={styles.ghostBtn}
-              onClick={() => {
-                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              id="hero-learn-btn"
-            >
-              Learn More
-            </button>
-          </div>
-
-          {/* Scroll hint */}
-          <div className={styles.scrollHint} aria-hidden="true">
-            <div className={styles.scrollMouse}>
-              <div className={styles.scrollWheel} />
-            </div>
-            <span>Scroll</span>
-          </div>
-        </section>
-
-        {/* ===== STATS ===== */}
-        <div className={styles.statsStrip}>
-          {STATS.map((s) => (
-            <div key={s.label} className={styles.statCard}>
-              <div className={styles.statNumber}>{s.number}</div>
-              <div className={styles.statLabel}>{s.label}</div>
-            </div>
-          ))}
         </div>
+
+        {/* ===== HEADER LOGO ===== */}
+        <header className={styles.header}>
+          <div className={styles.logo}>
+            <div className={styles.logoIcon}>∑</div>
+            <span className={styles.logoText}>
+              Matrix<span className={styles.logoAccent}>Calc</span>
+            </span>
+          </div>
+        </header>
+
+        {/* ===== CALCULATOR ===== */}
+        <section id="calculator" className={styles.calculatorSection}>
+          <MatrixCalculator />
+        </section>
 
         {/* ===== FEATURES ===== */}
         <section className={styles.features} id="features">
@@ -141,31 +92,6 @@ const App: React.FC = () => {
             ))}
           </div>
         </section>
-
-        {/* ===== CTA BOTTOM ===== */}
-        <section className={styles.ctaSection}>
-          <div className={styles.ctaCard}>
-            <h2 className={styles.ctaCardHeading}>Ready to compute?</h2>
-            <p className={styles.ctaCardSub}>
-              Jump into the calculator and start working with matrices right away.
-            </p>
-            <button
-              className={styles.trybtn}
-              onClick={() => router.push('/matrix')}
-              id="cta-bottom-btn"
-            >
-              <span className={styles.trybtnInner}>
-                Open Calculator
-                <span className={styles.tryArrow}>→</span>
-              </span>
-            </button>
-          </div>
-        </section>
-
-        {/* ===== FOOTER ===== */}
-        <footer className={styles.footer}>
-          © {new Date().getFullYear()} MatrixCalc · Built with Next.js
-        </footer>
       </main>
     </>
   );
