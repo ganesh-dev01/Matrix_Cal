@@ -23,6 +23,23 @@ export default function Document() {
         <meta property="og:type" content="website" />
       </Head>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const storedTheme = localStorage.getItem('theme');
+                  if (storedTheme === 'light' || storedTheme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', storedTheme);
+                  } else {
+                    const systemTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', systemTheme);
+                  }
+                } catch (e) {}
+              })();
+            `
+          }}
+        />
         <Main />
         <NextScript />
       </body>

@@ -36,6 +36,46 @@
   --transition-slow:     0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   --font-family:         'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Theme-specific custom overrides */
+  --mui-focus-glow:      rgba(255, 255, 255, 0.1);
+  --mui-paper-bg:        rgba(10, 10, 10, 0.98);
+  --math-bg-opacity:     0.035;
+  --math-decor-color:    #ffffff;
+  --orb-bg-1:            #ffffff;
+  --orb-bg-2:            #737373;
+}
+
+[data-theme='light'] {
+  --color-bg:            #ffffff;
+  --color-bg-2:          #f9fafb;
+  --color-surface:       rgba(0, 0, 0, 0.03);
+  --color-surface-hover: rgba(0, 0, 0, 0.06);
+  --color-border:        rgba(0, 0, 0, 0.08);
+  --color-border-glow:   rgba(0, 0, 0, 0.15);
+
+  --color-accent-1:      #111827;
+  --color-accent-2:      #4b5563;
+  --color-accent-3:      #9ca3af;
+  --gradient-accent:     linear-gradient(135deg, #111827 0%, #374151 50%, #6b7280 100%);
+  --gradient-accent-h:   linear-gradient(135deg, #4b5563 0%, #111827 100%);
+  --gradient-bg:         linear-gradient(135deg, #ffffff 0%, #f3f4f6 50%, #e5e7eb 100%);
+
+  --color-text:          #111827;
+  --color-text-muted:    rgba(0, 0, 0, 0.55);
+  --color-error:         #e11d48;
+  --color-success:       #059669;
+
+  --shadow-card:         0 12px 40px rgba(0, 0, 0, 0.06);
+  --shadow-glow:         0 0 24px rgba(0, 0, 0, 0.02);
+  --shadow-glow-sm:      0 0 12px rgba(0, 0, 0, 0.01);
+
+  --mui-focus-glow:      rgba(0, 0, 0, 0.05);
+  --mui-paper-bg:        rgba(255, 255, 255, 0.98);
+  --math-bg-opacity:     0.07;
+  --math-decor-color:    #111827;
+  --orb-bg-1:            #111827;
+  --orb-bg-2:            #a3a3a3;
 }
 
 /* ===== RESET ===== */
@@ -127,7 +167,7 @@ body {
 }
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: var(--color-accent-1) !important;
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.1) !important;
+  box-shadow: 0 0 0 2px var(--mui-focus-glow) !important;
 }
 .MuiInputLabel-root {
   color: var(--color-text-muted) !important;
@@ -142,10 +182,10 @@ body {
   color: var(--color-text-muted) !important;
 }
 .MuiPaper-root {
-  background: rgba(10,10,10,0.98) !important;
+  background: var(--mui-paper-bg) !important;
   color: var(--color-text) !important;
   border: 1px solid var(--color-border) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 .MuiMenuItem-root {
   color: var(--color-text) !important;
